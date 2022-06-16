@@ -1,0 +1,16 @@
+{
+  "name": "fastquery-builder",
+  "version": "1.0.1",
+  "description": "Make your query fast and build it easly",
+  "main": "index.js",
+  "repository": "git@github.com:3fydev/fastquery.git",
+  "keywords": [
+    "fast",
+    "query",
+    "clickhouse",
+    "mysql",
+    "performance"
+  ],
+  "author": "Jafet <jafet.fagundes@3fy.com.br>",
+  "license": "MIT"
+}
