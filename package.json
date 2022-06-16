@@ -1,6 +1,6 @@
 {
   "name": "fastquery-builder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Make your query fast and build it easly",
   "main": "index.js",
   "repository": "git@github.com:3fydev/fastquery.git",
