@@ -1,3 +1,29 @@
+export function transformFilter(col, value) {
+  if (Array.isArray(value)) return `${col} IN (${value})`;
+  return `${col} = ${value}`;
+}
+
+/**
+ * @params {[{ col, value: Array | String |Number}]} list
+ */
+export function where(list) {
+  return list.reduce((acc, filter, index) => {
+    if (index === 0) return `WHERE ${filter}`;
+    return `${acc} AND ${filter}`;
+  }, "");
+}
+
+export function having(list) {
+  return list.reduce((acc, filter, index) => {
+    if (index === 0) return `HAVING ${filter}`;
+    return `${acc} AND ${filter}`;
+  }, "");
+}
+
+export function join(list) {
+  return list.reduce((acc, filter) => `${acc} AND ${filter}`, "");
+}
+
 function conditionalInArrayExists(col, value, not) {
   if (Array.isArray(value) && value.length > 0) {
     const commas = `'${value.join(`', '`)}'`;
@@ -36,7 +62,7 @@ function conditionalWhereArrayAll(col, value, not) {
 
 function conditionalWhereEqual(col, value, not) {
   if (value || value === 0) {
-    const fvalue = typeof value === 'string' ? `'${value}'` : value;
+    const fvalue = typeof value === "string" ? `'${value}'` : value;
     if (not) return `${col} != ${fvalue}`;
     return `${col} = ${fvalue}`;
   }
@@ -45,7 +71,7 @@ function conditionalWhereEqual(col, value, not) {
 
 function conditionalWhereOp(col, operator, value) {
   if (value || value === 0) {
-    const fvalue = typeof value === 'string' ? `'${value}'` : value;
+    const fvalue = typeof value === "string" ? `'${value}'` : value;
     return `${col} ${operator} ${fvalue}`;
   }
   return null;
@@ -60,50 +86,36 @@ function conditionalWhereIN(col, value, not) {
   return null;
 }
 
-function conditionalWhereBetween(col, value, not) {
-  if (Array.isArray(value) && value.length === 2) {
-    const [init, end] = value;
+function conditionalWhereBetween(col, values, not, isSorted) {
+  if (Array.isArray(values) && values.length === 2) {
+    const [init, end] = isSorted
+      ? values.sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+      : values;
     if (not) return `${col} NOT BETWEEN ${init} AND ${end}`;
     return `${col} BETWEEN ${init} AND ${end}`;
   }
+
   return null;
 }
 
 function conditionalWhereLike(col, value) {
-  if (value && typeof value === 'string') {
-    const fvalue = value.replace(/\s/g, '%');
+  if (value && typeof value === "string") {
+    const fvalue = value.replace(/\s/g, "%");
     return `${col} LIKE '%${fvalue}%'`;
   }
   return null;
 }
 
 function conditionalWhereCaseInsensitive(col, value) {
-  if (value && typeof value === 'string') return `positionCaseInsensitive(${col}, '${value}') > 0`;
+  if (value && typeof value === "string")
+    return `positionCaseInsensitive(${col}, '${value}') > 0`;
 
   return null;
 }
 
 function conditionalWhereIsNot(col, value) {
-  const fvalue = typeof value === 'string' ? `'${value}'` : value;
+  const fvalue = typeof value === "string" ? `'${value}'` : value;
   return `${col} IS NOT ${fvalue}`;
-}
-
-export function transformFilter(col, value) {
-  if (Array.isArray(value)) return `${col} IN (${value})`;
-  return `${col} = ${value}`;
-}
-
-export function joinWhere(list) {
-  const listFiltered = list.filter(Boolean)
-  return listFiltered.reduce((where, filter, index) => {
-    if (index === 0) return `WHERE ${filter}`;
-    return `${where} AND ${filter}`;
-  }, '');
-}
-
-export function join(list) {
-  const listFiltered = list.filter(Boolean)
-  return listFiltered.reduce((where, filter) => `${where} AND ${filter}`, '');
 }
 
 export const conditionalWhere = {
