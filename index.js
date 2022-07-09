@@ -1,2 +1,2 @@
-export { default as clickhouseFormat } from './clickhouseFormat';
-export * from './handleQueries';
+export { default as clickhouseFormat } from './clickhouseFormat.js';
+export * from './handleQueries.js';
