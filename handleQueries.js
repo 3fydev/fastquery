@@ -20,7 +20,7 @@ function having(list) {
   }, "");
 }
 
-export function join(list) {
+function join(list) {
   return list.reduce((acc, filter) => `${acc} AND ${filter}`, "");
 }
 
@@ -133,4 +133,5 @@ module.exports = {
   transformFilter,
   where,
   having,
+  join,
 };
