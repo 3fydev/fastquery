@@ -1,2 +1,7 @@
-export { default as clickhouseFormat } from './clickhouseFormat.js';
-export * from './handleQueries.js';
+const clickhouseFormat = require('./clickhouseFormat')
+const handleQueries = require('./handleQueries')
+
+module.exports = {
+  clickhouseFormat,
+  ...handleQueries,
+}

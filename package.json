@@ -4,7 +4,6 @@
   "description": "Make your query fast and build it easly",
   "main": "index.js",
   "repository": "git@github.com:3fydev/fastquery.git",
-  "type": "module",
   "keywords": [
     "fast",
     "query",

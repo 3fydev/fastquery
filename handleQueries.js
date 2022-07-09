@@ -1,4 +1,4 @@
-export function transformFilter(col, value) {
+function transformFilter(col, value) {
   if (Array.isArray(value)) return `${col} IN (${value})`;
   return `${col} = ${value}`;
 }
@@ -6,14 +6,14 @@ export function transformFilter(col, value) {
 /**
  * @params {[{ col, value: Array | String |Number}]} list
  */
-export function where(list) {
+function where(list) {
   return list.reduce((acc, filter, index) => {
     if (index === 0) return `WHERE ${filter}`;
     return `${acc} AND ${filter}`;
   }, "");
 }
 
-export function having(list) {
+function having(list) {
   return list.reduce((acc, filter, index) => {
     if (index === 0) return `HAVING ${filter}`;
     return `${acc} AND ${filter}`;
@@ -118,7 +118,7 @@ function conditionalWhereIsNot(col, value) {
   return `${col} IS NOT ${fvalue}`;
 }
 
-export const conditionalWhere = {
+module.exports = {
   equal: conditionalWhereEqual,
   op: conditionalWhereOp,
   in: conditionalWhereIN,
@@ -130,4 +130,7 @@ export const conditionalWhere = {
   hasAny: conditionalWhereHasAny,
   hasAll: conditionalWhereHasAll,
   arrayAll: conditionalWhereArrayAll,
+  transformFilter,
+  where,
+  having,
 };

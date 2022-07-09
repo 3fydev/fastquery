@@ -9,4 +9,4 @@ const clickhouseFormat = (clickhouseObj) => {
   return arrayOfObjects;
 };
 
-export default clickhouseFormat;
+module.exports = clickhouseFormat;
